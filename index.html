@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Treasure Hunt 🎂</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        h1 {
+            color: #ff6b6b;
+            margin-bottom: 1rem;
+        }
+
+        .clue-container {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        input {
+            width: 80%;
+            padding: 0.8rem;
+            margin: 1rem 0;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #ff5252;
+        }
+
+        .error {
+            color: #ff4444;
+            margin-top: 0.5rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎂 Birthday Treasure Hunt 🎈</h1>
+        <div class="clue-container">
+            <p id="current-clue">First Clue: What's your favorite pet name?</p>
+        </div>
+        <input type="text" id="answer-input" placeholder="Enter your answer...">
+        <button onclick="checkAnswer()">Submit Answer</button>
+        <p class="error" id="error-message">That's not quite right! Try again! ❤️</p>
+    </div>
+
+    <script>
+        // You can customize these clues and answers
+        const cluesAndAnswers = [
+            {
+                clue: "What's your favorite pet name?",
+                answer: "luna",
+                nextClue: "Where did we have our first date?"
+            },
+            {
+                clue: "Where did we have our first date?",
+                answer: "restaurant",
+                nextClue: "What's my favorite color?"
+            },
+            {
+                clue: "What's my favorite color?",
+                answer: "blue",
+                nextClue: "🎉 Congratulations! You've found all the clues! Check under the coffee table for your surprise! 🎁"
+            }
+        ];
+
+        let currentClueIndex = 0;
+
+        function checkAnswer() {
+            const input = document.getElementById('answer-input');
+            const errorMessage = document.getElementById('error-message');
+            const userAnswer = input.value.toLowerCase().trim();
+            
+            if (userAnswer === cluesAndAnswers[currentClueIndex].answer) {
+                currentClueIndex++;
+                if (currentClueIndex < cluesAndAnswers.length) {
+                    document.getElementById('current-clue').textContent = 
+                        cluesAndAnswers[currentClueIndex].clue;
+                } else {
+                    document.getElementById('current-clue').textContent = 
+                        cluesAndAnswers[cluesAndAnswers.length - 1].nextClue;
+                    input.style.display = 'none';
+                    document.querySelector('button').style.display = 'none';
+                }
+                input.value = '';
+                errorMessage.style.display = 'none';
+            } else {
+                errorMessage.style.display = 'block';
+                input.value = '';
+            }
+        }
+
+        // Allow Enter key to submit
+        document.getElementById('answer-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAnswer();
+            }
+        });
+    </script>
+</body>
+</html> 
